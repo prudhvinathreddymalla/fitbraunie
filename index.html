@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#20473f">
+    <title>Pulse Pantry</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Today</p>
+          <h1>Pulse Pantry</h1>
+        </div>
+        <button class="icon-button" id="installButton" type="button" hidden aria-label="Install app" title="Install app">
+          <span aria-hidden="true">↓</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="hero-panel" aria-label="Daily progress">
+          <div class="hero-copy">
+            <p class="eyebrow" id="dateLabel">Daily rhythm</p>
+            <h2 id="heroTitle">Build your day with intention.</h2>
+          <p id="heroSummary">Follow your 8-week running, rehab, gym, and nutrition plan without turning health into homework.</p>
+          </div>
+          <div class="rings" aria-label="Progress rings">
+            <div class="ring" style="--value:0" id="calorieRing">
+              <span id="caloriePct">0%</span>
+              <small>fuel</small>
+            </div>
+            <div class="ring secondary" style="--value:0" id="proteinRing">
+              <span id="proteinPct">0%</span>
+              <small>protein</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="metric-grid" aria-label="Daily metrics">
+          <article class="metric-card">
+            <span class="metric-label">Calories</span>
+            <strong><span id="caloriesValue">0</span> / <span id="calorieGoalLabel">2200</span></strong>
+            <small>kcal</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Protein</span>
+            <strong><span id="proteinValue">0</span> / <span id="proteinGoalLabel">150</span></strong>
+            <small>grams</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Water</span>
+            <strong><span id="waterValue">0</span> / <span id="waterGoalLabel">3</span></strong>
+            <small>liters</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Workout</span>
+            <strong><span id="workoutValue">0</span></strong>
+            <small>minutes</small>
+          </article>
+        </section>
+
+        <section class="tabs" aria-label="Tracking forms">
+          <div class="tab-list" role="tablist">
+            <button class="tab active" data-tab="plan" type="button">Plan</button>
+            <button class="tab" data-tab="meal" type="button">Meal</button>
+            <button class="tab" data-tab="workout" type="button">Workout</button>
+            <button class="tab" data-tab="metrics" type="button">Metrics</button>
+            <button class="tab" data-tab="targets" type="button">Targets</button>
+          </div>
+
+          <div class="panel active" id="planPanel">
+            <label>
+              Training week
+              <select id="weekSelect"></select>
+            </label>
+            <div class="plan-grid" id="planGrid"></div>
+          </div>
+
+          <form class="panel" id="mealPanel">
+            <label>
+              Meal name
+              <input id="mealName" name="mealName" placeholder="Greek bowl" autocomplete="off">
+            </label>
+            <div class="form-row">
+              <label>
+                Calories
+                <input id="mealCalories" name="mealCalories" type="number" min="0" inputmode="numeric" placeholder="520">
+              </label>
+              <label>
+                Protein
+                <input id="mealProtein" name="mealProtein" type="number" min="0" inputmode="numeric" placeholder="38">
+              </label>
+            </div>
+            <button class="primary-button" type="submit">Add Meal</button>
+          </form>
+
+          <form class="panel" id="workoutPanel">
+            <label>
+              Workout
+              <input id="workoutName" name="workoutName" placeholder="Upper body" autocomplete="off">
+            </label>
+            <div class="form-row">
+              <label>
+                Minutes
+                <input id="workoutMinutes" name="workoutMinutes" type="number" min="0" inputmode="numeric" placeholder="45">
+              </label>
+              <label>
+                Water
+                <input id="waterLiters" name="waterLiters" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0.7">
+              </label>
+            </div>
+            <button class="primary-button" type="submit">Log Workout</button>
+          </form>
+
+          <form class="panel" id="metricsPanel">
+            <div class="form-row">
+              <label>
+                Week
+                <select id="metricWeek" name="metricWeek"></select>
+              </label>
+              <label>
+                Weight
+                <input id="metricWeight" name="metricWeight" type="number" min="1" step="0.1" inputmode="decimal">
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                Waist
+                <input id="metricWaist" name="metricWaist" type="number" min="1" step="0.1" inputmode="decimal">
+              </label>
+              <label>
+                Sleep
+                <input id="metricSleep" name="metricSleep" type="number" min="0" max="24" step="0.1" inputmode="decimal">
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                Running km
+                <input id="metricRunning" name="metricRunning" type="number" min="0" step="0.1" inputmode="decimal">
+              </label>
+              <label>
+                Knee pain
+                <input id="metricKnee" name="metricKnee" type="number" min="0" max="10" step="1" inputmode="numeric">
+              </label>
+            </div>
+            <label>
+              Notes
+              <input id="metricNotes" name="metricNotes" placeholder="Wins, misses, recovery notes">
+            </label>
+            <button class="primary-button" type="submit">Save Weekly Metrics</button>
+          </form>
+
+          <form class="panel" id="targetsPanel">
+            <div class="target-list" id="targetList"></div>
+            <div class="form-row">
+              <label>
+                Calories
+                <input id="goalCalories" name="goalCalories" type="number" min="1" inputmode="numeric">
+              </label>
+              <label>
+                Protein
+                <input id="goalProtein" name="goalProtein" type="number" min="1" inputmode="numeric">
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                Water
+                <input id="goalWater" name="goalWater" type="number" min="0.1" step="0.1" inputmode="decimal">
+              </label>
+              <label>
+                Weight
+                <input id="weight" name="weight" type="number" min="1" step="0.1" inputmode="decimal" placeholder="kg or lb">
+              </label>
+            </div>
+            <button class="primary-button" type="submit">Save Goals</button>
+          </form>
+        </section>
+
+        <section class="log-section">
+          <div class="section-title">
+            <h2>Daily Log</h2>
+            <button class="text-button" id="clearToday" type="button">Clear Today</button>
+          </div>
+          <ul class="entry-list" id="entryList"></ul>
+        </section>
+      </main>
+    </div>
+
+    <script src="plan-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

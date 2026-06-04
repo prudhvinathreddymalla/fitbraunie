@@ -1,0 +1,17 @@
+{
+  "name": "Pulse Pantry",
+  "short_name": "Pulse",
+  "description": "A private 8-week fitness and diet tracker for training, nutrition, and weekly metrics.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#eef5ef",
+  "theme_color": "#20473f",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
