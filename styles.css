@@ -393,13 +393,14 @@ select:focus {
 }
 
 .plan-grid {
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .plan-day {
-  min-height: 112px;
+  min-height: 128px;
   display: grid;
-  align-content: space-between;
+  align-content: start;
+  gap: 28px;
 }
 
 .plan-day span,
@@ -417,6 +418,13 @@ select:focus {
 .progress-item strong {
   display: block;
   margin-top: 8px;
+}
+
+.plan-day strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 1.08rem;
+  line-height: 1.16;
 }
 
 .compact,
@@ -540,7 +548,6 @@ select:focus {
   }
 
   .metric-grid,
-  .plan-grid,
   .compact,
   .progress-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -555,7 +562,6 @@ select:focus {
 @media (max-width: 410px) {
   .metric-grid,
   .rings,
-  .plan-grid,
   .compact,
   .progress-grid {
     grid-template-columns: 1fr;
