@@ -29,12 +29,17 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 .app-shell {
-  width: min(100%, 980px);
+  width: min(100%, 1040px);
   margin: 0 auto;
   padding: 20px;
 }
@@ -43,7 +48,9 @@ input {
 .section-title,
 .store-actions,
 .form-row,
-.tab-list {
+.view-nav,
+.quick-actions,
+.timer-actions {
   display: flex;
   align-items: center;
 }
@@ -68,7 +75,7 @@ h1 {
 .eyebrow {
   color: var(--tomato);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -82,6 +89,46 @@ h1 {
   color: var(--forest);
   font-size: 1.4rem;
   box-shadow: var(--shadow);
+}
+
+.view-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 34px rgba(23, 33, 31, 0.1);
+  backdrop-filter: blur(14px);
+}
+
+.nav-item {
+  flex: 0 0 auto;
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 14px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.nav-item.active {
+  background: var(--forest);
+  color: white;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: grid;
+  gap: 18px;
 }
 
 .hero-panel {
@@ -154,12 +201,16 @@ h1 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
-  margin: 18px 0;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
 }
 
 .metric-card,
-.tabs,
-.log-section,
+.panel-card,
 .store-feature {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -190,42 +241,24 @@ label,
   color: var(--muted);
 }
 
-.tabs,
-.log-section {
+.panel-card {
   padding: 16px;
 }
 
-.tab-list {
-  gap: 8px;
-  padding: 4px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #f6faf7;
+.section-title {
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.tab {
-  flex: 1;
-  min-height: 42px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--muted);
-  font-weight: 800;
+.section-title h2 {
+  font-size: 1.08rem;
 }
 
-.tab.active {
-  background: var(--forest);
-  color: white;
-}
-
-.panel {
-  display: none;
-  gap: 14px;
-  padding-top: 16px;
-}
-
-.panel.active {
+.form-panel,
+.compact-form {
   display: grid;
+  gap: 14px;
 }
 
 label {
@@ -233,16 +266,7 @@ label {
   gap: 7px;
 }
 
-input {
-  width: 100%;
-  min-height: 48px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 0 13px;
-  background: white;
-  color: var(--ink);
-}
-
+input,
 select {
   width: 100%;
   min-height: 48px;
@@ -251,14 +275,9 @@ select {
   padding: 0 13px;
   background: white;
   color: var(--ink);
-  font: inherit;
 }
 
-input:focus {
-  outline: 3px solid rgba(78, 143, 171, 0.22);
-  border-color: var(--blue);
-}
-
+input:focus,
 select:focus {
   outline: 3px solid rgba(78, 143, 171, 0.22);
   border-color: var(--blue);
@@ -302,13 +321,16 @@ select:focus {
   color: var(--tomato);
 }
 
-.log-section {
-  margin-top: 18px;
+.quick-actions {
+  gap: 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
 }
 
-.section-title {
-  justify-content: space-between;
-  gap: 12px;
+.quick-actions .secondary-button,
+.timer-actions .secondary-button {
+  min-height: 42px;
+  white-space: nowrap;
 }
 
 .entry-list {
@@ -329,22 +351,49 @@ select:focus {
   background: #fbfdfb;
 }
 
+.entry strong {
+  display: block;
+}
+
+.entry-meta {
+  margin-top: 3px;
+}
+
+.today-focus,
 .plan-grid,
-.target-list {
+.target-list,
+.progress-grid,
+.macro-bars {
   display: grid;
   gap: 10px;
 }
 
-.plan-grid {
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
+.focus-card,
 .plan-day,
-.target-item {
+.target-item,
+.progress-item {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fbfdfb;
   padding: 12px;
+}
+
+.focus-card {
+  display: grid;
+  gap: 8px;
+}
+
+.focus-card strong {
+  font-size: 1.08rem;
+}
+
+.focus-card small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.plan-grid {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .plan-day {
@@ -354,7 +403,9 @@ select:focus {
 }
 
 .plan-day span,
-.target-item span {
+.target-item span,
+.progress-item span,
+.macro-row span {
   color: var(--muted);
   font-size: 0.76rem;
   font-weight: 900;
@@ -362,17 +413,75 @@ select:focus {
 }
 
 .plan-day strong,
-.target-item strong {
+.target-item strong,
+.progress-item strong {
   display: block;
   margin-top: 8px;
 }
 
-.entry strong {
-  display: block;
+.compact,
+.progress-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.entry-meta {
-  margin-top: 3px;
+.week-picker {
+  width: min(180px, 46vw);
+}
+
+.timer-face {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  border-radius: 8px;
+  background: var(--forest);
+  color: white;
+  font-size: clamp(2.6rem, 10vw, 4.5rem);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.timer-actions {
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.timer-actions .primary-button {
+  flex: 1;
+}
+
+.macro-row {
+  display: grid;
+  grid-template-columns: 72px 1fr 54px;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8efe9;
+}
+
+.bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+#proteinBar {
+  background: var(--gold);
+}
+
+#fatBar {
+  background: var(--tomato);
+}
+
+.macro-row strong {
+  text-align: right;
 }
 
 .store-page {
@@ -416,7 +525,8 @@ select:focus {
   }
 
   .hero-panel,
-  .metric-grid {
+  .metric-grid,
+  .two-column {
     grid-template-columns: 1fr;
   }
 
@@ -429,11 +539,10 @@ select:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .metric-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .plan-grid {
+  .metric-grid,
+  .plan-grid,
+  .compact,
+  .progress-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -446,11 +555,17 @@ select:focus {
 @media (max-width: 410px) {
   .metric-grid,
   .rings,
-  .plan-grid {
+  .plan-grid,
+  .compact,
+  .progress-grid {
     grid-template-columns: 1fr;
   }
 
   .entry {
     grid-template-columns: 1fr;
+  }
+
+  .macro-row {
+    grid-template-columns: 64px 1fr 48px;
   }
 }

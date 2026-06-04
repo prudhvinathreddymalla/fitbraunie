@@ -12,7 +12,7 @@
     <div class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Today</p>
+          <p class="eyebrow" id="dateLabel">Today</p>
           <h1>fitbraunie</h1>
         </div>
         <button class="icon-button" id="installButton" type="button" hidden aria-label="Install app" title="Install app">
@@ -20,141 +20,277 @@
         </button>
       </header>
 
+      <nav class="view-nav" aria-label="App sections">
+        <button class="nav-item active" data-view="dashboard" type="button">Dashboard</button>
+        <button class="nav-item" data-view="today" type="button">Today</button>
+        <button class="nav-item" data-view="workout" type="button">Workout</button>
+        <button class="nav-item" data-view="nutrition" type="button">Nutrition</button>
+        <button class="nav-item" data-view="progress" type="button">Progress</button>
+        <button class="nav-item" data-view="plan" type="button">Plan</button>
+      </nav>
+
       <main>
-        <section class="hero-panel" aria-label="Daily progress">
-          <div class="hero-copy">
-            <p class="eyebrow" id="dateLabel">Daily rhythm</p>
-            <h2 id="heroTitle">Build your day with intention.</h2>
-          <p id="heroSummary">Follow your 8-week running, rehab, gym, and nutrition plan without turning health into homework.</p>
-          </div>
-          <div class="rings" aria-label="Progress rings">
-            <div class="ring" style="--value:0" id="calorieRing">
-              <span id="caloriePct">0%</span>
-              <small>fuel</small>
+        <section class="view active" id="dashboardView">
+          <section class="hero-panel" aria-label="Daily progress">
+            <div class="hero-copy">
+              <p class="eyebrow">Week <span id="heroWeek">1</span></p>
+              <h2 id="heroTitle">Build your day with intention.</h2>
+              <p id="heroSummary">Follow your 8-week running, rehab, gym, and nutrition plan with one calm daily check-in.</p>
             </div>
-            <div class="ring secondary" style="--value:0" id="proteinRing">
-              <span id="proteinPct">0%</span>
-              <small>protein</small>
+            <div class="rings" aria-label="Progress rings">
+              <div class="ring" style="--value:0" id="calorieRing">
+                <span id="caloriePct">0%</span>
+                <small>fuel</small>
+              </div>
+              <div class="ring secondary" style="--value:0" id="proteinRing">
+                <span id="proteinPct">0%</span>
+                <small>protein</small>
+              </div>
             </div>
-          </div>
+          </section>
+
+          <section class="metric-grid" aria-label="Daily metrics">
+            <article class="metric-card">
+              <span class="metric-label">Calories</span>
+              <strong><span id="caloriesValue">0</span> / <span id="calorieGoalLabel">2200</span></strong>
+              <small>kcal</small>
+            </article>
+            <article class="metric-card">
+              <span class="metric-label">Protein</span>
+              <strong><span id="proteinValue">0</span> / <span id="proteinGoalLabel">150</span></strong>
+              <small>grams</small>
+            </article>
+            <article class="metric-card">
+              <span class="metric-label">Water</span>
+              <strong><span id="waterValue">0</span> / <span id="waterGoalLabel">3</span></strong>
+              <small>liters</small>
+            </article>
+            <article class="metric-card">
+              <span class="metric-label">Training</span>
+              <strong><span id="workoutValue">0</span></strong>
+              <small>minutes</small>
+            </article>
+          </section>
+
+          <section class="two-column">
+            <article class="panel-card">
+              <div class="section-title">
+                <h2>Today</h2>
+                <button class="text-button jump-button" data-view="today" type="button">Log</button>
+              </div>
+              <div class="today-focus" id="todayFocus"></div>
+            </article>
+            <article class="panel-card">
+              <div class="section-title">
+                <h2>Targets</h2>
+                <button class="text-button jump-button" data-view="plan" type="button">Edit</button>
+              </div>
+              <div class="target-list compact" id="targetList"></div>
+            </article>
+          </section>
         </section>
 
-        <section class="metric-grid" aria-label="Daily metrics">
-          <article class="metric-card">
-            <span class="metric-label">Calories</span>
-            <strong><span id="caloriesValue">0</span> / <span id="calorieGoalLabel">2200</span></strong>
-            <small>kcal</small>
-          </article>
-          <article class="metric-card">
-            <span class="metric-label">Protein</span>
-            <strong><span id="proteinValue">0</span> / <span id="proteinGoalLabel">150</span></strong>
-            <small>grams</small>
-          </article>
-          <article class="metric-card">
-            <span class="metric-label">Water</span>
-            <strong><span id="waterValue">0</span> / <span id="waterGoalLabel">3</span></strong>
-            <small>liters</small>
-          </article>
-          <article class="metric-card">
-            <span class="metric-label">Workout</span>
-            <strong><span id="workoutValue">0</span></strong>
-            <small>minutes</small>
-          </article>
+        <section class="view" id="todayView">
+          <section class="panel-card">
+            <div class="section-title">
+              <h2>Daily Log</h2>
+              <button class="text-button" id="clearToday" type="button">Clear Today</button>
+            </div>
+            <div class="quick-actions">
+              <button class="secondary-button quick-log" data-kind="water" type="button">+ 0.5L Water</button>
+              <button class="secondary-button quick-log" data-kind="rehab" type="button">+ 15m Rehab</button>
+              <button class="secondary-button quick-log" data-kind="walk" type="button">+ 30m Walk</button>
+            </div>
+            <ul class="entry-list" id="entryList"></ul>
+          </section>
         </section>
 
-        <section class="tabs" aria-label="Tracking forms">
-          <div class="tab-list" role="tablist">
-            <button class="tab active" data-tab="plan" type="button">Plan</button>
-            <button class="tab" data-tab="meal" type="button">Meal</button>
-            <button class="tab" data-tab="workout" type="button">Workout</button>
-            <button class="tab" data-tab="metrics" type="button">Metrics</button>
-            <button class="tab" data-tab="targets" type="button">Targets</button>
-          </div>
+        <section class="view" id="workoutView">
+          <section class="two-column">
+            <form class="panel-card form-panel" id="workoutPanel">
+              <div class="section-title">
+                <h2>Workout</h2>
+                <span class="entry-meta">sets, load, effort</span>
+              </div>
+              <label>
+                Workout
+                <input id="workoutName" name="workoutName" placeholder="Upper Body" autocomplete="off">
+              </label>
+              <label>
+                Exercise
+                <input id="exerciseName" name="exerciseName" placeholder="Bench press" autocomplete="off">
+              </label>
+              <div class="form-row">
+                <label>
+                  Sets
+                  <input id="workoutSets" name="workoutSets" type="number" min="0" inputmode="numeric" placeholder="3">
+                </label>
+                <label>
+                  Reps
+                  <input id="workoutReps" name="workoutReps" type="number" min="0" inputmode="numeric" placeholder="10">
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Weight
+                  <input id="workoutWeight" name="workoutWeight" type="number" min="0" step="0.5" inputmode="decimal" placeholder="40">
+                </label>
+                <label>
+                  RIR
+                  <input id="workoutRir" name="workoutRir" type="number" min="0" max="10" inputmode="numeric" placeholder="2">
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Minutes
+                  <input id="workoutMinutes" name="workoutMinutes" type="number" min="0" inputmode="numeric" placeholder="45">
+                </label>
+                <label>
+                  Water
+                  <input id="waterLiters" name="waterLiters" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0.7">
+                </label>
+              </div>
+              <button class="primary-button" type="submit">Log Workout</button>
+            </form>
+            <article class="panel-card">
+              <div class="section-title">
+                <h2>Rest Timer</h2>
+                <span class="entry-meta" id="timerStatus">Ready</span>
+              </div>
+              <div class="timer-face" id="timerFace">01:30</div>
+              <div class="timer-actions">
+                <button class="secondary-button timer-preset" data-seconds="60" type="button">60s</button>
+                <button class="secondary-button timer-preset" data-seconds="90" type="button">90s</button>
+                <button class="secondary-button timer-preset" data-seconds="120" type="button">120s</button>
+                <button class="primary-button" id="timerToggle" type="button">Start</button>
+              </div>
+            </article>
+          </section>
+        </section>
 
-          <div class="panel active" id="planPanel">
-            <label>
-              Training week
-              <select id="weekSelect"></select>
-            </label>
+        <section class="view" id="nutritionView">
+          <section class="two-column">
+            <form class="panel-card form-panel" id="mealPanel">
+              <div class="section-title">
+                <h2>Nutrition</h2>
+                <span class="entry-meta">meals and macros</span>
+              </div>
+              <label>
+                Meal name
+                <input id="mealName" name="mealName" placeholder="Greek bowl" autocomplete="off">
+              </label>
+              <div class="form-row">
+                <label>
+                  Calories
+                  <input id="mealCalories" name="mealCalories" type="number" min="0" inputmode="numeric" placeholder="520">
+                </label>
+                <label>
+                  Protein
+                  <input id="mealProtein" name="mealProtein" type="number" min="0" inputmode="numeric" placeholder="38">
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Carbs
+                  <input id="mealCarbs" name="mealCarbs" type="number" min="0" inputmode="numeric" placeholder="52">
+                </label>
+                <label>
+                  Fat
+                  <input id="mealFat" name="mealFat" type="number" min="0" inputmode="numeric" placeholder="18">
+                </label>
+              </div>
+              <button class="primary-button" type="submit">Add Meal</button>
+            </form>
+            <article class="panel-card">
+              <div class="section-title">
+                <h2>Macro Split</h2>
+                <span class="entry-meta">today</span>
+              </div>
+              <div class="macro-bars">
+                <div class="macro-row">
+                  <span>Protein</span>
+                  <div class="bar"><i id="proteinBar"></i></div>
+                  <strong id="proteinBarLabel">0g</strong>
+                </div>
+                <div class="macro-row">
+                  <span>Carbs</span>
+                  <div class="bar"><i id="carbBar"></i></div>
+                  <strong id="carbBarLabel">0g</strong>
+                </div>
+                <div class="macro-row">
+                  <span>Fat</span>
+                  <div class="bar"><i id="fatBar"></i></div>
+                  <strong id="fatBarLabel">0g</strong>
+                </div>
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <section class="view" id="progressView">
+          <section class="panel-card">
+            <div class="section-title">
+              <h2>Weekly Metrics</h2>
+              <span class="entry-meta">weight, waist, sleep, run volume</span>
+            </div>
+            <form class="form-panel compact-form" id="metricsPanel">
+              <div class="form-row">
+                <label>
+                  Week
+                  <select id="metricWeek" name="metricWeek"></select>
+                </label>
+                <label>
+                  Weight
+                  <input id="metricWeight" name="metricWeight" type="number" min="1" step="0.1" inputmode="decimal">
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Waist
+                  <input id="metricWaist" name="metricWaist" type="number" min="1" step="0.1" inputmode="decimal">
+                </label>
+                <label>
+                  Sleep
+                  <input id="metricSleep" name="metricSleep" type="number" min="0" max="24" step="0.1" inputmode="decimal">
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Running km
+                  <input id="metricRunning" name="metricRunning" type="number" min="0" step="0.1" inputmode="decimal">
+                </label>
+                <label>
+                  Knee pain
+                  <input id="metricKnee" name="metricKnee" type="number" min="0" max="10" step="1" inputmode="numeric">
+                </label>
+              </div>
+              <label>
+                Notes
+                <input id="metricNotes" name="metricNotes" placeholder="Wins, misses, recovery notes">
+              </label>
+              <button class="primary-button" type="submit">Save Weekly Metrics</button>
+            </form>
+            <div class="progress-grid" id="progressGrid"></div>
+          </section>
+        </section>
+
+        <section class="view" id="planView">
+          <section class="panel-card">
+            <div class="section-title">
+              <h2>8-Week Plan</h2>
+              <label class="week-picker">
+                <span>Week</span>
+                <select id="weekSelect"></select>
+              </label>
+            </div>
             <div class="plan-grid" id="planGrid"></div>
-          </div>
+          </section>
 
-          <form class="panel" id="mealPanel">
-            <label>
-              Meal name
-              <input id="mealName" name="mealName" placeholder="Greek bowl" autocomplete="off">
-            </label>
-            <div class="form-row">
-              <label>
-                Calories
-                <input id="mealCalories" name="mealCalories" type="number" min="0" inputmode="numeric" placeholder="520">
-              </label>
-              <label>
-                Protein
-                <input id="mealProtein" name="mealProtein" type="number" min="0" inputmode="numeric" placeholder="38">
-              </label>
+          <form class="panel-card form-panel" id="targetsPanel">
+            <div class="section-title">
+              <h2>Daily Goals</h2>
+              <span class="entry-meta">local to this device</span>
             </div>
-            <button class="primary-button" type="submit">Add Meal</button>
-          </form>
-
-          <form class="panel" id="workoutPanel">
-            <label>
-              Workout
-              <input id="workoutName" name="workoutName" placeholder="Upper body" autocomplete="off">
-            </label>
-            <div class="form-row">
-              <label>
-                Minutes
-                <input id="workoutMinutes" name="workoutMinutes" type="number" min="0" inputmode="numeric" placeholder="45">
-              </label>
-              <label>
-                Water
-                <input id="waterLiters" name="waterLiters" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0.7">
-              </label>
-            </div>
-            <button class="primary-button" type="submit">Log Workout</button>
-          </form>
-
-          <form class="panel" id="metricsPanel">
-            <div class="form-row">
-              <label>
-                Week
-                <select id="metricWeek" name="metricWeek"></select>
-              </label>
-              <label>
-                Weight
-                <input id="metricWeight" name="metricWeight" type="number" min="1" step="0.1" inputmode="decimal">
-              </label>
-            </div>
-            <div class="form-row">
-              <label>
-                Waist
-                <input id="metricWaist" name="metricWaist" type="number" min="1" step="0.1" inputmode="decimal">
-              </label>
-              <label>
-                Sleep
-                <input id="metricSleep" name="metricSleep" type="number" min="0" max="24" step="0.1" inputmode="decimal">
-              </label>
-            </div>
-            <div class="form-row">
-              <label>
-                Running km
-                <input id="metricRunning" name="metricRunning" type="number" min="0" step="0.1" inputmode="decimal">
-              </label>
-              <label>
-                Knee pain
-                <input id="metricKnee" name="metricKnee" type="number" min="0" max="10" step="1" inputmode="numeric">
-              </label>
-            </div>
-            <label>
-              Notes
-              <input id="metricNotes" name="metricNotes" placeholder="Wins, misses, recovery notes">
-            </label>
-            <button class="primary-button" type="submit">Save Weekly Metrics</button>
-          </form>
-
-          <form class="panel" id="targetsPanel">
-            <div class="target-list" id="targetList"></div>
             <div class="form-row">
               <label>
                 Calories
@@ -177,14 +313,6 @@
             </div>
             <button class="primary-button" type="submit">Save Goals</button>
           </form>
-        </section>
-
-        <section class="log-section">
-          <div class="section-title">
-            <h2>Daily Log</h2>
-            <button class="text-button" id="clearToday" type="button">Clear Today</button>
-          </div>
-          <ul class="entry-list" id="entryList"></ul>
         </section>
       </main>
     </div>
