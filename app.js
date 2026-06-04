@@ -286,8 +286,11 @@ function dailyTotals() {
 function renderPlan() {
   const week = plan.trainingCalendar.find((item) => item.week === activeWeek) || plan.trainingCalendar[0];
   el.planGrid.innerHTML = dayLabels.map(([key, label]) => `
-    <article class="plan-day">
-      <span>${label}</span>
+    <article class="plan-day ${planKind(week[key])}">
+      <div>
+        <span>${label}</span>
+        <small>${planTag(week[key])}</small>
+      </div>
       <strong>${week[key]}</strong>
     </article>
   `).join("");
@@ -476,6 +479,23 @@ function trainingCue(session) {
   if (session.includes("Upper")) return "Log sets, reps, load, and RIR so progression is obvious.";
   if (session.includes("Lower")) return "Train legs, but let knee pain guide intensity.";
   return "Recovery is part of the program, not a day off from progress.";
+}
+
+function planKind(session) {
+  if (session.includes("Run") || session.includes("Tempo") || session.includes("Track")) return "is-run";
+  if (session.includes("Body")) return "is-lift";
+  if (session.includes("Rehab") || session.includes("Mobility")) return "is-rehab";
+  return "is-recovery";
+}
+
+function planTag(session) {
+  if (session.includes("Long Run")) return "Long run";
+  if (session.includes("Tempo")) return "Tempo";
+  if (session.includes("Track")) return "Track";
+  if (session.includes("Upper")) return "Upper";
+  if (session.includes("Lower")) return "Lower";
+  if (session.includes("Mobility")) return "Mobility";
+  return "Recovery";
 }
 
 function summaryText(totals) {
