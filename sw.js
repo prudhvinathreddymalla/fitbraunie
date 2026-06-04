@@ -1,4 +1,4 @@
-const cacheName = "fitbraunie-v4";
+const cacheName = "fitbraunie-v5";
 const assets = [
   "./",
   "index.html",

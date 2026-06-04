@@ -5,6 +5,7 @@ const storageKey = `pulse-pantry:${todayKey}`;
 const goalsKey = "pulse-pantry:goals";
 const metricsKey = "pulse-pantry:weekly-metrics";
 const activeWeekKey = "pulse-pantry:active-week";
+const sheetsEndpointKey = "fitbraunie:sheets-endpoint";
 
 const defaultGoals = {
   calories: 2200,
@@ -53,7 +54,11 @@ const ids = [
   "fatBarLabel",
   "timerFace",
   "timerStatus",
-  "timerToggle"
+  "timerToggle",
+  "sheetsEndpoint",
+  "saveSheetsEndpoint",
+  "syncSheetsButton",
+  "syncStatus"
 ];
 
 const el = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
@@ -89,6 +94,8 @@ document.querySelectorAll(".timer-preset").forEach((button) => {
 });
 
 el.timerToggle.addEventListener("click", toggleTimer);
+el.saveSheetsEndpoint.addEventListener("click", saveSheetsEndpoint);
+el.syncSheetsButton.addEventListener("click", pushToSheets);
 
 el.weekSelect.addEventListener("change", () => {
   activeWeek = Number(el.weekSelect.value);
@@ -210,6 +217,7 @@ if ("serviceWorker" in navigator) {
 
 setTimer(timerSeconds);
 fillMetricForm(activeWeek);
+el.sheetsEndpoint.value = localStorage.getItem(sheetsEndpointKey) || "";
 render();
 
 function loadState() {
@@ -420,6 +428,54 @@ function quickLog(kind) {
   };
   state.entries.unshift({ ...entries[kind], time: timeLabel() });
   persistDay();
+}
+
+function saveSheetsEndpoint() {
+  const endpoint = el.sheetsEndpoint.value.trim();
+  if (!endpoint) {
+    localStorage.removeItem(sheetsEndpointKey);
+    el.syncStatus.textContent = "Sheets URL cleared. Data stays local on this device.";
+    return;
+  }
+  localStorage.setItem(sheetsEndpointKey, endpoint);
+  el.syncStatus.textContent = "Sheets URL saved on this device.";
+}
+
+async function pushToSheets() {
+  const endpoint = el.sheetsEndpoint.value.trim() || localStorage.getItem(sheetsEndpointKey);
+  if (!endpoint) {
+    el.syncStatus.textContent = "Add your Apps Script Web App URL first.";
+    return;
+  }
+
+  localStorage.setItem(sheetsEndpointKey, endpoint);
+  el.syncSheetsButton.disabled = true;
+  el.syncStatus.textContent = "Pushing current local data to Google Sheets...";
+
+  const payload = {
+    app: "fitbraunie",
+    version: 1,
+    syncedAt: new Date().toISOString(),
+    activeWeek,
+    dayKey: todayKey,
+    goals: state.goals,
+    daily: state,
+    weeklyMetrics
+  };
+
+  try {
+    const body = new URLSearchParams({ payload: JSON.stringify(payload) });
+    await fetch(endpoint, {
+      method: "POST",
+      mode: "no-cors",
+      body
+    });
+    el.syncStatus.textContent = "Push sent. Check your Google Sheet for the latest rows.";
+  } catch (error) {
+    el.syncStatus.textContent = "Push failed. Check the Apps Script URL and try again.";
+  } finally {
+    el.syncSheetsButton.disabled = false;
+  }
 }
 
 function switchView(viewName) {

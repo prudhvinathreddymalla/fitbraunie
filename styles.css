@@ -50,7 +50,8 @@ button {
 .form-row,
 .view-nav,
 .quick-actions,
-.timer-actions {
+.timer-actions,
+.sync-actions {
   display: flex;
   align-items: center;
 }
@@ -570,6 +571,16 @@ select:focus {
   flex-wrap: wrap;
 }
 
+.sync-actions {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sync-status {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .timer-actions .primary-button {
   flex: 1;
 }
@@ -673,6 +684,11 @@ select:focus {
   .form-row {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .sync-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .view-nav {

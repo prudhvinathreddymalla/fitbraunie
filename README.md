@@ -41,3 +41,18 @@ Deployment from the GitHub website:
 6. Open the Pages URL GitHub gives you, then open `store.html`.
 
 Do not commit private measurements, medical notes, photos, or credentials into this repository.
+
+## Google Sheets Backup
+
+The app can optionally push local data into a Google Sheet through Google Apps Script.
+
+1. Create a new Google Sheet.
+2. In the Sheet, open Extensions > Apps Script.
+3. Paste the contents of `google-sheets-sync.gs`.
+4. Deploy > New deployment > Web app.
+5. Set Execute as: Me.
+6. Set Who has access: Anyone with the link.
+7. Copy the Web App URL ending in `/exec`.
+8. In fitbraunie, open Progress > Google Sheets Backup, paste the URL, save it, then push.
+
+The app remains local-first. Google Sheets receives data only when you manually push.

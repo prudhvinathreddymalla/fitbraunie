@@ -307,6 +307,23 @@
             </form>
             <div class="progress-grid" id="progressGrid"></div>
           </section>
+          <section class="panel-card">
+            <div class="section-title">
+              <h2>Google Sheets Backup</h2>
+              <span class="entry-meta">optional cloud copy</span>
+            </div>
+            <div class="form-panel">
+              <label>
+                Apps Script Web App URL
+                <input id="sheetsEndpoint" name="sheetsEndpoint" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+              </label>
+              <div class="sync-actions">
+                <button class="secondary-button" id="saveSheetsEndpoint" type="button">Save URL</button>
+                <button class="primary-button" id="syncSheetsButton" type="button">Push to Sheets</button>
+              </div>
+              <p class="sync-status" id="syncStatus">Local-first: nothing syncs until you add a URL and push.</p>
+            </div>
+          </section>
         </section>
 
         <section class="view" id="planView">
