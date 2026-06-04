@@ -1,6 +1,6 @@
 {
-  "name": "Pulse Pantry",
-  "short_name": "Pulse",
+  "name": "fitbraunie",
+  "short_name": "fitbraunie",
   "description": "A private 8-week fitness and diet tracker for training, nutrition, and weekly metrics.",
   "start_url": "index.html",
   "display": "standalone",

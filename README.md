@@ -1,4 +1,4 @@
-# Pulse Pantry
+# fitbraunie
 
 A small private fitness and diet PWA based on `Prithvi_Fitness_Tracker_8_Weeks.xlsx`. It tracks the 8-week training calendar, daily meals, protein, water, workout minutes, weekly metrics, and goals in local browser storage.
 

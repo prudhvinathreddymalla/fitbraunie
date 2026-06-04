@@ -1,4 +1,4 @@
-const cacheName = "pulse-pantry-v2";
+const cacheName = "fitbraunie-v1";
 const assets = [
   "./",
   "index.html",
